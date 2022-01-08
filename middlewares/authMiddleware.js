@@ -1,5 +1,5 @@
 import AppErrors from "../utils/appErrors.js";
-import TokensServices from "../services/tokensServices.js";
+import { TokenServices } from "../services/tokenServices.js";
 
 export default function authMiddleware(req, res, next) {
   try {
@@ -10,7 +10,7 @@ export default function authMiddleware(req, res, next) {
     }
 
     const token = authorization.split(" ")[1];
-    const userData = TokensServices.verifyToken(token, "access");
+    const userData = TokenServices.verifyToken(token, "access");
 
     if (!userData) {
       return next(AppErrors.unauthorized("Пользователь не авторизован"));

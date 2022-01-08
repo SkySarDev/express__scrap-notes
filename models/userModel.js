@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const { Schema, model } = mongoose;
 
-const Users = new Schema({
+const UserSchema = new Schema({
   email: {
     type: String,
     required: true,
@@ -18,4 +18,4 @@ const Users = new Schema({
   },
 });
 
-export default model("users", Users);
+export const UserModel = model("users", UserSchema);

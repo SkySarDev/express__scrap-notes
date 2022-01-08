@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 
 import * as config from "../config.js";
-import TokensModel from "../models/tokensModel.js";
+import { TokenModel } from "../models/tokenModel.js";
 
-class TokensServices {
+class Token {
   generateTokens(id, email) {
     const accessToken = jwt.sign({ id, email }, config.SECRET_ACCESS_KEY, {
       expiresIn: "1h",
@@ -16,14 +16,14 @@ class TokensServices {
   }
 
   async saveRefreshToken(userId, userEmail, refreshToken) {
-    const tokenInfo = await TokensModel.findOne({ userId });
+    const tokenInfo = await TokenModel.findOne({ userId });
 
     if (tokenInfo) {
       tokenInfo.refreshToken = refreshToken;
       return tokenInfo.save();
     }
 
-    return await TokensModel.create({ userId, userEmail, refreshToken });
+    return await TokenModel.create({ userId, userEmail, refreshToken });
   }
 
   verifyToken(token, type) {
@@ -44,7 +44,7 @@ class TokensServices {
 
   async removeToken(refreshToken) {
     try {
-      return await TokensModel.deleteOne({ refreshToken });
+      return await TokenModel.deleteOne({ refreshToken });
     } catch (err) {
       return null;
     }
@@ -52,11 +52,11 @@ class TokensServices {
 
   async checkToken(refreshToken) {
     try {
-      return await TokensModel.findOne({ refreshToken });
+      return await TokenModel.findOne({ refreshToken });
     } catch (err) {
       return null;
     }
   }
 }
 
-export default new TokensServices();
+export const TokenServices = new Token();

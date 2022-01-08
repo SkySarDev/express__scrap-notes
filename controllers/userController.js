@@ -2,9 +2,9 @@ import { validationResult } from "express-validator";
 
 import * as config from "../config.js";
 import AppErrors from "../utils/appErrors.js";
-import UsersServices from "../services/usersServices.js";
+import { UserServices } from "../services/usersServices.js";
 
-class UsersController {
+class User {
   async registration(req, res, next) {
     try {
       const errors = validationResult(req);
@@ -16,7 +16,7 @@ class UsersController {
       }
 
       const { email, password, login } = req.body;
-      const newUserTokens = await UsersServices.registration(
+      const newUserTokens = await UserServices.registration(
         email,
         password,
         login
@@ -37,7 +37,7 @@ class UsersController {
   async login(req, res, next) {
     try {
       const { email, password } = req.body;
-      const userData = await UsersServices.login(email, password);
+      const userData = await UserServices.login(email, password);
 
       return res
         .cookie("refreshToken", userData.refreshToken, config.COOKIE_OPTIONS)
@@ -55,7 +55,7 @@ class UsersController {
         return next(AppErrors.unauthorized("Неверный токен!"));
       }
 
-      await UsersServices.logout(refreshToken);
+      await UserServices.logout(refreshToken);
 
       return res
         .clearCookie("refreshToken")
@@ -68,7 +68,7 @@ class UsersController {
   async refresh(req, res, next) {
     try {
       const { refreshToken } = req.cookies;
-      const newTokens = await UsersServices.refresh(refreshToken);
+      const newTokens = await UserServices.refresh(refreshToken);
 
       return res
         .cookie("refreshToken", newTokens.refreshToken, config.COOKIE_OPTIONS)
@@ -80,7 +80,7 @@ class UsersController {
 
   async auth(req, res, next) {
     try {
-      const { login, email } = await UsersServices.auth(req.user.email);
+      const { login, email } = await UserServices.auth(req.user.email);
 
       return res.json({ login, email });
     } catch (err) {
@@ -89,4 +89,4 @@ class UsersController {
   }
 }
 
-export default new UsersController();
+export const UserController = new User();

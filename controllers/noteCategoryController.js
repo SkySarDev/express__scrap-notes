@@ -1,22 +1,10 @@
-import NoteCategoriesModel from "../models/noteCategoriesModel.js";
+import { NoteCategoryModel } from "../models/noteCategoryModel.js";
 
-class NoteCategoriesController {
+class NoteCategory {
   async getAll(req, res, next) {
     try {
       const userId = req.user.id;
-      const categoryList = await NoteCategoriesModel.find({ userId });
-
-      return res.json(categoryList);
-    } catch (err) {
-      return next(err);
-    }
-  }
-
-  async getOne(req, res, next) {
-    try {
-      const categoryList = await NoteCategoriesModel.findOne({
-        _id: req.params.id,
-      });
+      const categoryList = await NoteCategoryModel.find({ userId });
 
       return res.json(categoryList);
     } catch (err) {
@@ -28,7 +16,7 @@ class NoteCategoriesController {
     try {
       const userId = req.user.id;
       const { name } = req.body;
-      const request = await NoteCategoriesModel.create({ userId, name });
+      const request = await NoteCategoryModel.create({ userId, name });
 
       return res.json(request);
     } catch (err) {
@@ -39,7 +27,7 @@ class NoteCategoriesController {
   async delete(req, res, next) {
     try {
       const { id } = req.params;
-      const request = await NoteCategoriesModel.findByIdAndDelete(id);
+      const request = await NoteCategoryModel.findByIdAndDelete(id);
 
       return res.json(request);
     } catch (err) {
@@ -51,7 +39,7 @@ class NoteCategoriesController {
     try {
       const { id } = req.params;
       const { name } = req.body;
-      const request = await NoteCategoriesModel.findByIdAndUpdate(id, { name });
+      const request = await NoteCategoryModel.findByIdAndUpdate(id, { name });
 
       return res.json(request);
     } catch (err) {
@@ -60,4 +48,4 @@ class NoteCategoriesController {
   }
 }
 
-export default new NoteCategoriesController();
+export const NoteCategoryController = new NoteCategory();

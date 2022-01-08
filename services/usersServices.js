@@ -1,19 +1,19 @@
 import bcrypt from "bcryptjs";
 
-import UsersModel from "../models/usersModel.js";
+import { UserModel } from "../models/userModel.js";
+import { TokenServices } from "../services/tokenServices.js";
 import AppErrors from "../utils/appErrors.js";
-import TokenServices from "../services/tokensServices.js";
 
-class UsersServices {
+class User {
   async registration(email, password, login) {
-    const user = await UsersModel.findOne({ email });
+    const user = await UserModel.findOne({ email });
 
     if (user) {
       throw AppErrors.badRequest("Пользователь с таким email уже существует!");
     }
 
     const hashPassword = bcrypt.hashSync(password, 8);
-    const newUser = await UsersModel.create({
+    const newUser = await UserModel.create({
       email,
       password: hashPassword,
       login,
@@ -32,7 +32,7 @@ class UsersServices {
   }
 
   async login(email, password) {
-    const user = await UsersModel.findOne({ email });
+    const user = await UserModel.findOne({ email });
 
     if (!user) {
       throw AppErrors.badRequest("Пользователь с таким email не найден!");
@@ -81,7 +81,7 @@ class UsersServices {
   }
 
   async auth(email) {
-    const user = await UsersModel.findOne({ email });
+    const user = await UserModel.findOne({ email });
 
     if (!user) {
       throw AppErrors.badRequest("Пользователь не найден!");
@@ -91,4 +91,4 @@ class UsersServices {
   }
 }
 
-export default new UsersServices();
+export const UserServices = new User();
