@@ -23,6 +23,10 @@ class NoteItem {
   delete(id) {
     return NoteItemModel.findByIdAndDelete(id);
   }
+
+  deleteAllByCategory(categoryId) {
+    return NoteItemModel.deleteMany({ categoryId });
+  }
 }
 
 export const NoteItemServices = new NoteItem();
