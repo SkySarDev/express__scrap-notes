@@ -12,12 +12,9 @@ router
   .delete("/categories/:id", authMiddleware, NoteCategoryController.delete)
   .put("/categories/:id", authMiddleware, NoteCategoryController.update)
 
-  .get(
-    "/items/:categoryId",
-    authMiddleware,
-    NoteItemController.getAllByCategory
-  )
+  .get("/items", authMiddleware, NoteItemController.getAll)
   .post("/items", authMiddleware, NoteItemController.create)
-  .delete("/items/:id", authMiddleware, NoteItemController.delete);
+  .delete("/items/:id", authMiddleware, NoteItemController.delete)
+  .put("/items/:id", authMiddleware, NoteItemController.update);
 
 export default router;

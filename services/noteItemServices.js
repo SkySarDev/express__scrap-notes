@@ -2,12 +2,12 @@ import { NoteItemModel } from "../models/noteItemModel.js";
 import AppErrors from "../utils/appErrors.js";
 
 class NoteItem {
-  getAllByCategory(categoryId) {
-    if (!categoryId) {
-      throw AppErrors.badRequest("Категория не найдена");
+  getAll(userId) {
+    if (!userId) {
+      throw AppErrors.badRequest("Ошибка получения списка заметок");
     }
 
-    return NoteItemModel.find({ categoryId });
+    return NoteItemModel.find({ userId });
   }
 
   create(itemContent, userId) {
@@ -16,8 +16,15 @@ class NoteItem {
     }
 
     const { title, body, categoryId } = itemContent;
+    const dateCreate = Date.now();
 
-    return NoteItemModel.create({ title, body, categoryId, userId });
+    return NoteItemModel.create({
+      title,
+      body,
+      categoryId,
+      userId,
+      dateCreate,
+    });
   }
 
   delete(id) {
@@ -26,6 +33,11 @@ class NoteItem {
 
   deleteAllByCategory(categoryId) {
     return NoteItemModel.deleteMany({ categoryId });
+  }
+
+  update(id, data) {
+    const { title, body } = data;
+    return NoteItemModel.findByIdAndUpdate(id, { title, body });
   }
 }
 

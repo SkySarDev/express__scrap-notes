@@ -20,6 +20,10 @@ const NoteItemSchema = new Schema({
     ref: "users",
     required: true,
   },
+  dateCreate: {
+    type: Number,
+    required: true,
+  },
 });
 
 export const NoteItemModel = model("note-items", NoteItemSchema);

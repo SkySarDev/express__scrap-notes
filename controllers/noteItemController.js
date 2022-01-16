@@ -2,11 +2,9 @@ import { NoteItemServices } from "../services/noteItemServices.js";
 import AppErrors from "../utils/appErrors.js";
 
 class NoteItem {
-  async getAllByCategory(req, res, next) {
+  async getAll(req, res, next) {
     try {
-      const noteItems = await NoteItemServices.getAllByCategory(
-        req.params.categoryId
-      );
+      const noteItems = await NoteItemServices.getAll(req.user.id);
 
       return res.json(noteItems);
     } catch (err) {
@@ -29,10 +27,24 @@ class NoteItem {
       const deletedNote = await NoteItemServices.delete(req.params.id);
 
       if (!deletedNote) {
-        return next(AppErrors.badRequest("Заметка не найдена"));
+        return next(AppErrors.badRequest("Заметка не найдена!"));
       }
 
       return res.json(deletedNote);
+    } catch (err) {
+      return next(err);
+    }
+  }
+
+  async update(req, res, next) {
+    try {
+      const response = await NoteItemServices.update(req.params.id, req.body);
+
+      if (!response) {
+        return next(AppErrors.badRequest("Ошибка редактирования заметки!"));
+      }
+
+      return res.json(response);
     } catch (err) {
       return next(err);
     }
