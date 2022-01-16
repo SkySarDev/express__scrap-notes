@@ -5,16 +5,16 @@ class NoteCategory {
     return NoteCategoryModel.find({ userId });
   }
 
-  create(userId, name) {
-    return NoteCategoryModel.create({ userId, name });
+  create(userId, title) {
+    return NoteCategoryModel.create({ userId, title });
   }
 
   delete(id) {
     return NoteCategoryModel.findByIdAndDelete(id);
   }
 
-  update(id, name) {
-    return NoteCategoryModel.findByIdAndUpdate(id, { name });
+  update(id, title) {
+    return NoteCategoryModel.findByIdAndUpdate(id, { title });
   }
 }
 

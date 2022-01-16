@@ -8,7 +8,7 @@ class NoteCategory {
       const categoryList = await NoteCategoryServices.getAll(req.user.id);
 
       if (!categoryList) {
-        return next(AppErrors.badRequest("Ошибка получения списка категорий"));
+        return next(AppErrors.badRequest("Ошибка получения списка категорий!"));
       }
 
       return res.json(categoryList);
@@ -19,16 +19,16 @@ class NoteCategory {
 
   async create(req, res, next) {
     try {
-      const request = await NoteCategoryServices.create(
+      const response = await NoteCategoryServices.create(
         req.user.id,
-        req.body.name
+        req.body.title
       );
 
-      if (!request) {
-        return next(AppErrors.badRequest("Ошибка создания категории"));
+      if (!response) {
+        return next(AppErrors.badRequest("Ошибка создания категории!"));
       }
 
-      return res.json(request);
+      return res.json(response);
     } catch (err) {
       return next(err);
     }
@@ -45,7 +45,7 @@ class NoteCategory {
         ]);
 
       if (!responseDeleteCategory || !responseDeleteNoteItems) {
-        return next(AppErrors.badRequest("Ошибка удаления категории"));
+        return next(AppErrors.badRequest("Ошибка удаления категории!"));
       }
 
       return res.json(responseDeleteCategory);
@@ -56,16 +56,16 @@ class NoteCategory {
 
   async update(req, res, next) {
     try {
-      const request = await NoteCategoryServices.update(
+      const response = await NoteCategoryServices.update(
         req.params.id,
-        req.body.name
+        req.body.title
       );
 
-      if (!request) {
-        return next(AppErrors.badRequest("Ошибка редактирования категории"));
+      if (!response) {
+        return next(AppErrors.badRequest("Ошибка редактирования категории!"));
       }
 
-      return res.json(request);
+      return res.json(response);
     } catch (err) {
       return next(err);
     }
