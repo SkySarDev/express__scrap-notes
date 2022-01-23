@@ -7,7 +7,7 @@ export default function registrationValidator() {
     check("login").notEmpty().withMessage("Некорректный login"),
 
     check("password")
-      .isLength({ min: 6 })
-      .withMessage("Пароль не может быть короче 6 символов"),
+      .isLength({ min: 4 })
+      .withMessage("Пароль не может быть короче 4 символов"),
   ];
 }
