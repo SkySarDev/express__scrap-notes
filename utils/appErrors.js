@@ -1,9 +1,9 @@
 class AppErrors {
-  badRequest(message, errors = []) {
+  badRequest(message, errorsArray = []) {
     return {
       status: 400,
       message,
-      errors,
+      errorsArray,
     };
   }
 

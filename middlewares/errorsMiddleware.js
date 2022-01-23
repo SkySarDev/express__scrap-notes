@@ -4,9 +4,7 @@ export default function (err, req, res, next) {
     err.message = "Ошибка сервера";
   }
 
-  console.log(err);
-
   return res
     .status(err.status)
-    .json({ message: err.message, errors: err.errors || [] });
+    .json({ message: err.message, errorsArray: err.errorsArray || [] });
 }
