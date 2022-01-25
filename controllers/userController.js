@@ -16,8 +16,9 @@ class User {
       }
 
       const { email, password, login } = req.body;
+      const formattedEmail = email.toLowerCase();
       const newUserTokens = await UserServices.registration(
-        email,
+        formattedEmail,
         password,
         login
       );
@@ -37,7 +38,8 @@ class User {
   async login(req, res, next) {
     try {
       const { email, password } = req.body;
-      const userData = await UserServices.login(email, password);
+      const formattedEmail = email.toLowerCase();
+      const userData = await UserServices.login(formattedEmail, password);
 
       return res
         .cookie("refreshToken", userData.refreshToken, config.COOKIE_OPTIONS)
