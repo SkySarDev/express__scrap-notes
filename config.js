@@ -9,6 +9,8 @@ export const SECRET_ACCESS_KEY = process.env.SECRET_ACCESS_KEY;
 export const SECRET_REFRESH_KEY = process.env.SECRET_REFRESH_KEY;
 
 export const COOKIE_OPTIONS = {
+  secure: true,
+  sameSite: "none",
   httpOnly: true,
   maxAge: 30 * 24 * 60 * 60 * 1000,
 };

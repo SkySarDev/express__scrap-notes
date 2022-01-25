@@ -14,7 +14,13 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ credentials: true, origin: config.SITE_URL }));
+app.use(
+  cors({
+    credentials: true,
+    origin: config.SITE_URL,
+    optionsSuccessStatus: 200,
+  })
+);
 
 app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/notes", notesRouter);
