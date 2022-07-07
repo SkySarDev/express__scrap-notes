@@ -25,7 +25,7 @@ class User {
 
       return res
         .cookie(
-          "refreshToken",
+          "snRefreshToken",
           newUserTokens.refreshToken,
           config.COOKIE_OPTIONS
         )
@@ -42,7 +42,7 @@ class User {
       const userData = await UserServices.login(formattedEmail, password);
 
       return res
-        .cookie("refreshToken", userData.refreshToken, config.COOKIE_OPTIONS)
+        .cookie("snRefreshToken", userData.refreshToken, config.COOKIE_OPTIONS)
         .json({ token: userData.accessToken, login: userData.login });
     } catch (err) {
       return next(err);
@@ -51,16 +51,16 @@ class User {
 
   async logout(req, res, next) {
     try {
-      const { refreshToken } = req.cookies;
+      const { snRefreshToken } = req.cookies;
 
-      if (!refreshToken) {
+      if (!snRefreshToken) {
         return next(AppErrors.unauthorized("Неверный токен!"));
       }
 
-      await UserServices.logout(refreshToken);
+      await UserServices.logout(snRefreshToken);
 
       return res
-        .clearCookie("refreshToken")
+        .clearCookie("snRefreshToken")
         .json({ message: "Пользователь разлогинен!" });
     } catch (err) {
       return next(err);
@@ -69,11 +69,11 @@ class User {
 
   async refresh(req, res, next) {
     try {
-      const { refreshToken } = req.cookies;
-      const newTokens = await UserServices.refresh(refreshToken);
+      const { snRefreshToken } = req.cookies;
+      const newTokens = await UserServices.refresh(snRefreshToken);
 
       return res
-        .cookie("refreshToken", newTokens.refreshToken, config.COOKIE_OPTIONS)
+        .cookie("snRefreshToken", newTokens.refreshToken, config.COOKIE_OPTIONS)
         .json({ token: newTokens.accessToken });
     } catch (err) {
       return next(err);
