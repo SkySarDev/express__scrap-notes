@@ -13,4 +13,6 @@ export const COOKIE_OPTIONS = {
   sameSite: "none",
   httpOnly: true,
   maxAge: 30 * 24 * 60 * 60 * 1000,
+  domain: process.env.DOMAIN
 };
+
